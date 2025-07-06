@@ -89,6 +89,7 @@
 **/.vscode/
 **/.idea/
 **/.vscode-test/
+**/.claude/
 
 # Other
 **/.tern-port
