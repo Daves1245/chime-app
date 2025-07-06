@@ -1,0 +1,112 @@
+version: '3.8'
+
+services:
+  cassandra-1:
+    build: .
+    container_name: chime-messages-cassandra-1
+    hostname: cassandra-1
+    ports:
+      - "9042:9042"
+      - "9160:9160"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=ChatCluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_RACK=rack1
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_SEEDS=cassandra-1
+      - CASSANDRA_LISTEN_ADDRESS=cassandra-1
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra-1
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0
+      - CASSANDRA_START_RPC=true
+      - MAX_HEAP_SIZE=2G
+      - HEAP_NEWSIZE=400M
+      - NODE_TYPE=primary
+    volumes:
+      - cassandra_data_1:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'describe keyspaces'"]
+      interval: 30s
+      timeout: 10s
+      retries: 20
+      start_period: 3m
+    networks:
+      - chime-network
+
+  cassandra-2:
+    build: .
+    container_name: chime-messages-cassandra-2
+    hostname: cassandra-2
+    ports:
+      - "9043:9042"
+      - "9161:9160"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=ChatCluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_RACK=rack2
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_SEEDS=cassandra-1
+      - CASSANDRA_LISTEN_ADDRESS=cassandra-2
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra-2
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0
+      - CASSANDRA_START_RPC=true
+      - MAX_HEAP_SIZE=2G
+      - HEAP_NEWSIZE=400M
+      - NODE_TYPE=secondary
+    volumes:
+      - cassandra_data_2:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'describe keyspaces'"]
+      interval: 30s
+      timeout: 10s
+      retries: 20
+      start_period: 3m
+    networks:
+      - chime-network
+    depends_on:
+      cassandra-1:
+        condition: service_healthy
+
+  cassandra-3:
+    build: .
+    container_name: chime-messages-cassandra-3
+    hostname: cassandra-3
+    ports:
+      - "9044:9042"
+      - "9162:9160"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=ChatCluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_RACK=rack3
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_SEEDS=cassandra-1
+      - CASSANDRA_LISTEN_ADDRESS=cassandra-3
+      - CASSANDRA_BROADCAST_ADDRESS=cassandra-3
+      - CASSANDRA_RPC_ADDRESS=0.0.0.0
+      - CASSANDRA_START_RPC=true
+      - MAX_HEAP_SIZE=2G
+      - HEAP_NEWSIZE=400M
+      - NODE_TYPE=secondary
+    volumes:
+      - cassandra_data_3:/var/lib/cassandra
+    healthcheck:
+      test: ["CMD-SHELL", "cqlsh -e 'describe keyspaces'"]
+      interval: 30s
+      timeout: 10s
+      retries: 20
+      start_period: 3m
+    networks:
+      - chime-network
+    depends_on:
+      cassandra-1:
+        condition: service_healthy
+      cassandra-2:
+        condition: service_started
+
+volumes:
+  cassandra_data_1:
+  cassandra_data_2:
+  cassandra_data_3:
+
+networks:
+  chime-network:
+    driver: bridge

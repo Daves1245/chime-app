@@ -1,0 +1,99 @@
+# Credentials
+**/*.credentials.toml
+
+# Dependencies
+**/node_modules/
+**/jspm_packages/
+**/web_modules/
+
+# Build outputs
+**/dist/
+**/build/
+**/out/
+**/.next/
+**/.nuxt/
+
+# Environment variables
+**/.env
+**/.env.local
+**/.env.*.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+# Logs
+**/logs/
+**/*.log
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/lerna-debug.log*
+**/.pnpm-debug.log*
+
+# Coverage and testing
+**/coverage/
+**/.nyc_output/
+**/*.lcov
+**/lib-cov/
+
+# Cache directories
+**/.cache/
+**/.parcel-cache/
+**/.rpt2_cache/
+**/.rts2_cache_*/
+**/.eslintcache
+**/.stylelintcache
+**/.npm
+**/.yarn/cache
+**/.yarn/unplugged
+**/.yarn/build-state.yml
+**/.yarn/install-state.gz
+**/.pnp.*
+
+# TypeScript
+**/*.tsbuildinfo
+
+# Runtime data
+**/pids/
+**/*.pid
+**/*.seed
+**/*.pid.lock
+
+# Diagnostic reports
+**/report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Build tools
+**/.grunt
+**/bower_components/
+**/.lock-wscript
+**/build/Release
+
+# Package outputs
+**/*.tgz
+**/.yarn-integrity
+
+# Serverless
+**/.serverless/
+
+# Database
+**/.dynamodb/
+
+# Editor files
+**/*.swp
+**/*.swo
+**/*.s[a-w][a-z]
+**/*~
+**/*.sw
+
+# IDE files
+**/.vscode/
+**/.idea/
+**/.vscode-test/
+
+# Other
+**/.tern-port
+**/.fusebox/
+**/.node_repl_history
+**/.docusaurus/
+**/.temp/
+**/.vuepress/dist/
